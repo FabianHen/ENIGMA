@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 /**
- * Die Main Klasse.
+ * The Main Class.
  * @author F. Henßler
  */
 public class Main {
@@ -9,10 +9,9 @@ public class Main {
     private static final String SHORTLINE = LONGLINE.substring(0,LONGLINE.length()/2);
 
     /**
-     * Die Methode Main gibt mithilfe einer While-Schleife immer dieselbe Frage mit sechs Antwortmöglichkeiten aus.
-     * in Form einer Zahlen-Eingabe kann der Benutzer sich dann für eine der Befehle entscheiden. Dieser
-     * wird dann mithilfe eines Switch-Cases durchgeführt.
-     * @param args der Standart Parameter der Main Methode
+     * The Main method always returns the same question with six possible answers using a while loop.
+     * In the form of a number input, the user can then choose one of the commands.
+     * This is then carried out with the help of a switch case.
      */
     public static void main(String[] args) {
         Enigma enigma = new Enigma();
@@ -21,14 +20,14 @@ public class Main {
         boolean keepgoing = true;
         while (keepgoing) {
             System.out.println("What's your plan?");
-            System.out.println("Press 1 for encrypting a message");
-            System.out.println("Press 2 for decrypting a message");
-            System.out.println("Press 3 entering a ringposition ");
+            System.out.println("Press 1 to encrypt a message");
+            System.out.println("Press 2 to decrypt a message");
+            System.out.println("Press 3 to enter a ringposition ");
             System.out.println("Press 4 to set a plug");
             System.out.println("Press 5 to see/remove plugs");
             System.out.println("Press 6 to exit");
-            System.out.println(SHORTLINE + (enigma.getringPosition()[0]+1) + "/"+ (enigma.getringPosition()[1]+1) + "/"
-                    + (enigma.getringPosition()[2]+1) + SHORTLINE);
+            System.out.println(SHORTLINE + (enigma.getRingPosition()[0]+1) + "/" + (enigma.getRingPosition()[1]+1) + "/"
+                    + (enigma.getRingPosition()[2]+1) + SHORTLINE);
             int action = in.nextInt();
             switch (action) {
                 case 1 -> {
@@ -59,7 +58,7 @@ public class Main {
                     System.out.println("Set second wheel to (number): ");
                     position = in.nextInt();
                     ringpositionUpdate[1] = position -1;
-                    System.out.println("Set thirt wheel to (number):  ");
+                    System.out.println("Set third wheel to (number):  ");
                     position = in.nextInt();
                     ringpositionUpdate[2] = position -1;
                     enigma.setRollersTo(ringpositionUpdate);
@@ -86,8 +85,8 @@ public class Main {
                     else{
                         System.out.println("This plug is already used, press 5 to see set plugs");
                     }
-                    System.out.println(SHORTLINE + (enigma.getringPosition()[0]+1) + "/"+ (enigma.getringPosition()[1]+1) + "/"
-                            + (enigma.getringPosition()[2]+1) + SHORTLINE);
+                    System.out.println(SHORTLINE + (enigma.getRingPosition()[0]+1) + "/"+ (enigma.getRingPosition()[1]+1) + "/"
+                            + (enigma.getRingPosition()[2]+1) + SHORTLINE);
                 }
                 case 5 -> {
                     String answer;
@@ -108,14 +107,14 @@ public class Main {
                         remove = in.nextInt();
                         enigma.removePlug(remove);
                     }
-                    System.out.println(SHORTLINE + (enigma.getringPosition()[0]+1) + "/"+ (enigma.getringPosition()[1]+1) + "/"
-                            + (enigma.getringPosition()[2]+1) + SHORTLINE);
+                    System.out.println(SHORTLINE + (enigma.getRingPosition()[0]+1) + "/"+ (enigma.getRingPosition()[1]+1) + "/"
+                            + (enigma.getRingPosition()[2]+1) + SHORTLINE);
                 }
                 case 6 -> {
                     System.out.println("OK. Exiting...");
                     keepgoing = false;
                 }
-                default -> System.out.println("");
+                default -> System.out.println();
             }
         }
     }

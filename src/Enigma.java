@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Die Klasse Enigma, in der Nachrichten sowohl ver- als auch entschlüsselt werden können.
+ * The Enigma class, in which messages can be both encrypted and decrypted.
  * @author F. Henßler
  */
 public class Enigma {
@@ -16,9 +16,6 @@ public class Enigma {
     private int[] ringPositionLastMessage;
     private final char[][] plugs;
 
-    /**
-     * Der Konstruktor der Klasse Enigma.
-     */
     public Enigma(){
         createRollers();
         List<Character> letterList = Arrays.asList('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q',
@@ -29,21 +26,19 @@ public class Enigma {
     }
 
     /**
-     * eine gegebene Nachricht wird Buchstabe für Buchstabe mithilfe der Methode "encryptLetter" verschlüsselt.
-     * Dabei wird der Buchstabe, wie bei der originalen Enigma zweimal durch das Steckbrett geführt. Wird durch den
-     * Parameter "decrypt" entschieden, dass eine Nachricht ent- und nicht verschlüsselt wird, wird automatisch die
-     * zuletzt verwendete Ringposition genutzt.
-     *
-     * @param message die zu verschlüsselnde Nachricht
-     * @param decrypt entscheidet, ob die Nachricht ver- oder entschlüsselt werden soll
-     * @return die verschlüsselte Nachricht als String
+     * A given message is encrypted letter by letter using the "encryptLetter" method. As with the original Enigma,
+     * the letter is passed through the board twice. If the parameter "decrypt" decides that a message is decrypted and
+     * not decrypted, the last used ring position is automatically used.
+     * @param message the message to be encrypted
+     * @param decrypt decides whether to encrypt or decrypt the message
+     * @return the encrypted message as a string
      */
     public String useOnMessage(String message, boolean decrypt){
         if(decrypt){
             setRollersTo(ringPositionLastMessage);
         }
         else {
-            ringPositionLastMessage = getringPosition();
+            ringPositionLastMessage = getRingPosition();
         }
 
         String encryptedMessage = "";
@@ -58,9 +53,9 @@ public class Enigma {
     }
 
     /**
-     * Durchläuft mit einem Buchstaben die einzelnen Walzen und gibt im Anschluss den verschlüsselten Buchstaben zurück.
-     * @param pChar der zu verschlüsselne Buchstabe
-     * @return der verschlüsselte Buchstabe
+     * Passes through the individual reels with a letter and then returns the encrypted letter.
+     * @param pChar the character to be encoded
+     * @return the encoded character
      */
     public char encryptLetter(char pChar){
         int next = letterToNumber(pChar);
@@ -90,12 +85,12 @@ public class Enigma {
     }
 
     /**
-     *Sucht einen Buchstaben in einer belibien Walze und gibt die Stelle dieses Buchstaben zurück.
+     * Finds a letter in a roller and returns the position of that letter.
      *
-     * @param side auf welcher Seite der Walze gesucht werden soll
-     * @param searched welcher Buchstabe gesucht ist
-     * @param roller die Walze in der gesucht werden soll
-     * @return auf welcher Höhe sich der gesuchte Buchstabe in der Walze befindet
+     * @param side on which side of the roller should be searched
+     * @param searched which character is searched
+     * @param roller the roller in which the letter is searched
+     * @return at what height the searched character in the roller is
      */
     public int searchInRoller(int side, char searched, ArrayList<Character[][]> roller){
         for(int i=0; i<26; i++){
@@ -107,7 +102,7 @@ public class Enigma {
     }
 
     /**
-     * Dreht die gesamte Walze, dabei wird mit 'roller1' angefangen. Roller 2 und 3 drehen sich bei 'q' und 'e' mit.
+     * Spin the entire reel, starting with 'roller1'. Rollers 2 and 3 rotate with 'q' and 'e'.
      */
     private void spinWhole(){
         if(roller1.get(0)[0][0] == 'q'){
@@ -129,7 +124,7 @@ public class Enigma {
     }
 
     /**
-     * Dreht die erste Walze um 1. Dabei wird der erste Eintrag der Liste gelöscht und hinten wieder angehängt.
+     * Rotates the first roller one time. This deletes the first entry of the list and appends it to the back.
      */
     private void spinRoller1(){
         Character[][] help1;
@@ -138,7 +133,7 @@ public class Enigma {
         roller1.remove(0);
     }
     /**
-     * Dreht die zweite Walze um 1. Dabei wird der erste Eintrag der Liste gelöscht und hinten wieder angehängt.
+     * Rotates the second roller one time. This deletes the first entry of the list and appends it to the back.
      */
     private void spinRoller2(){
         Character[][] help2;
@@ -147,7 +142,7 @@ public class Enigma {
         roller2.add(help2);
     }
     /**
-     * Dreht die dritte Walze um 1. Dabei wird der erste Eintrag der Liste gelöscht und hinten wieder angehängt.
+     * Rotates the third roller one time. This deletes the first entry of the list and appends it to the back.
      */
     private void spinRoller3(){
         Character[][] help3;
@@ -157,8 +152,8 @@ public class Enigma {
     }
 
     /**
-     * Setzt die Walzen der Enigma auf eine bestimmte Position.
-     * @param pRingPosition die gewünschte Walzenposition
+     * Sets the reels of the Enigma to a certain position.
+     * @param pRingPosition the desired roll position
      */
     public void setRollersTo(int[] pRingPosition){
         if (pRingPosition.length == 3) {
@@ -180,10 +175,10 @@ public class Enigma {
     }
 
     /**
-     * Gibt die aktuelle Walzenposition in Form von Nummern von rechts nach links zurück.
-     * @return die aktuelle Walzenpostion als Array
+     * Returns the current reel position as numbers from right to left.
+     * @return the current roller position as array
      */
-    public int[] getringPosition(){
+    public int[] getRingPosition(){
         int [] ringPosition = new int [3];
         ringPosition[2]= letterToNumber(Character.toUpperCase(roller1.get(0)[0][0]));
         ringPosition[1]= letterToNumber(Character.toUpperCase(roller2.get(0)[0][0]));
@@ -197,9 +192,9 @@ public class Enigma {
     }
 
     /**
-     * Wandelt einen gegebenen Buchstaben in einen anderen Buchstaeb um, wenn dieser im Plug-Array vorkommt.
-     * @param pChar den umzuwandelnden Buchstaben
-     * @return den umgewandelten Buchstaben
+     * Converts a given letter to another letter if it appears in the plug array.
+     * @param pChar the letters to be converted
+     * @return the converted letter
      */
     public char putLetterThroughPlugs(char pChar){
         int unused = findFirstUnusedPlug();
@@ -215,9 +210,9 @@ public class Enigma {
     }
 
     /**
-     * Füllt die erste leere Stelle des plug-Arrays mit gegebenen Buchstaben
-     * @param plug1 Steckerplatz 1 des Kabels
-     * @param plug2 Steckerplatz 2 des Kabels
+     * Fills the first empty space of the plug array with given letters
+     * @param plug1 Plug 1 of the cable
+     * @param plug2 Plug 2 of the cable
      */
     public void setPlug(char plug1, char plug2){
        int plugSpot = findFirstUnusedPlug();
@@ -228,9 +223,9 @@ public class Enigma {
     }
 
     /**
-     * Sucht im Plug-Array nach einem String. Ist dieser vorhanden, wird true zurückgegeben.
-     * @param searched der gesuchte String
-     * @return vorhanden
+     * Searches for a string in the plug array. If it exists, true is returned.
+     * @param searched the searched string
+     * @return if Plug is occupied
      */
     public boolean isPlugOccupied(String searched){
         for (char[] plug : plugs) {
@@ -243,8 +238,8 @@ public class Enigma {
     }
 
     /**
-     * setzt einen beliebeigen index des Plug-Arrays auf 0 und sortiert diesen nach hinten
-     * @param index der zu entfernende index
+     * sets any index of the plug array to 0 and sorts it backwards
+     * @param index the index to be removed
      */
     public void removePlug(int index){
         plugs[index-1][0] = 0;
@@ -261,7 +256,7 @@ public class Enigma {
         }
 
     }
-    /** @return der erste leere Index des Plug-Arrays*/
+    /** @return the first empty index of the plug array*/
     public int findFirstUnusedPlug() {
         for (int i = 0; i < plugs.length; i++) {
             if (plugs[i][0] == 0) {
@@ -272,17 +267,17 @@ public class Enigma {
     }
 
     /**
-     * Der Getter von 'plugs'.
-     * @return das Array 'plugs'
+     * Getter for 'plugs'.
+     * @return 'plugs'
      */
     public char[][] getPlugs(){
         return plugs;
     }
 
     /**
-     * Gibt die Stelle eines Buchstaben des Alphabets an. Dabei ist 'A' Stelle 0 und nicht 1.
-     * @param a der umzuwandelnde Buchstabe
-     * @return die Stelle im Alphabet -1
+     * Specifies the position of a letter of the alphabet. Where 'A' is 0 and not 1.
+     * @param a the letter to be converted
+     * @return the position in the alphabet -1
      */
     public int letterToNumber(char a){
         return switch (a) {
@@ -317,8 +312,8 @@ public class Enigma {
     }
 
     /**
-     * Erstellt 3 vorgegebene Walzen in folgendem Muster:
-     * {'Stelle', 'Verknüpfung nach rechts'} {'Stelle', 'Verknüpfung nach links'}
+     * Creates 3 predefined reels in the following pattern:
+     * {'place', 'link to the right'} {'place', 'link to the left'}
      */
     public void createRollers(){
         roller1.add(new Character[][]{{'a', 'q'},{'a', 'j'}});
