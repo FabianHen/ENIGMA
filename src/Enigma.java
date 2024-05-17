@@ -57,7 +57,7 @@ public class Enigma {
      * @param pChar the character to be encoded
      * @return the encoded character
      */
-    public char encryptLetter(char pChar){
+    private char encryptLetter(char pChar){
         int next = letterToNumber(pChar);
         char searched;
 
@@ -423,6 +423,10 @@ public class Enigma {
         reversingRoller.add(new Character[]{'x', 'f'});
         reversingRoller.add(new Character[]{'y', 'n'});
         reversingRoller.add(new Character[]{'z', 'c'});
+    }
 
+    public boolean checkForLetter(String input){
+        if(input == null || input.length() != 1) return false;
+        return (input.toUpperCase().charAt(0) >= 65 && input.toUpperCase().charAt(0) <= 90);
     }
 }

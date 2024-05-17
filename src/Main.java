@@ -15,7 +15,6 @@ public class Main {
      */
     public static void main(String[] args) {
         Enigma enigma = new Enigma();
-        Scanner in = new Scanner(System.in);
 
         boolean keepgoing = true;
         while (keepgoing) {
@@ -28,11 +27,12 @@ public class Main {
             System.out.println("Press 6 to exit");
             System.out.println(SHORTLINE + (enigma.getRingPosition()[0]+1) + "/" + (enigma.getRingPosition()[1]+1) + "/"
                     + (enigma.getRingPosition()[2]+1) + SHORTLINE);
-            int action = in.nextInt();
+            Scanner in = new Scanner(System.in);
+            String input = in.nextLine();
+            int action = input.charAt(0) - 48;
             switch (action) {
                 case 1 -> {
                     System.out.println("What do you want to encrypt? (Only A-Z, no numbers)");
-                    in.nextLine();
                     String message = in.nextLine();
                     String messageNew = enigma.useOnMessage(message, false);
                     System.out.println("Your Message was encrypted into:" + messageNew);
@@ -43,7 +43,6 @@ public class Main {
                 }
                 case 2 -> {
                     System.out.println("What do you want to decrypt? (Only A-Z, no numbers)");
-                    in.nextLine();
                     String messageToDecrypt = in.nextLine();
                     String messageDecrypted = enigma.useOnMessage(messageToDecrypt, true);
                     System.out.println("Your Message was decrypted into:" + messageDecrypted);
@@ -53,28 +52,55 @@ public class Main {
                     int[] ringpositionUpdate = new int[3];
                     int position;
                     System.out.println("Set first wheel to (number): ");
-                    position = in.nextInt();
-                    ringpositionUpdate[0] = position -1 ;
+                    try {
+                        position = in.nextInt();
+                    }catch (Exception e) {
+                        System.out.println("Invalid input");
+                        in.nextLine();
+                        System.out.println(LONGLINE);
+                        break;
+                    }
+                    ringpositionUpdate[0] = position;
                     System.out.println("Set second wheel to (number): ");
-                    position = in.nextInt();
-                    ringpositionUpdate[1] = position -1;
+                    try {
+                        position = in.nextInt();
+                    }catch (Exception e) {
+                        System.out.println("Invalid input");
+                        in.nextLine();
+                        System.out.println(LONGLINE);
+                        break;
+                    }
+                    ringpositionUpdate[1] = position;
                     System.out.println("Set third wheel to (number):  ");
-                    position = in.nextInt();
-                    ringpositionUpdate[2] = position -1;
+                    try {
+                        position = in.nextInt();
+                    }catch (Exception e) {
+                        System.out.println("Invalid input");
+                        in.nextLine();
+                        System.out.println(LONGLINE);
+                        break;
+                    }
+                    ringpositionUpdate[2] = position;
                     enigma.setRollersTo(ringpositionUpdate);
-                    System.out.println("New ringposition has been set");
+                    System.out.println("Rings have been set to " + ringpositionUpdate[0] + "/" + ringpositionUpdate[1] +
+                            "/" + ringpositionUpdate[2]);
                     System.out.println(LONGLINE);
                 }
                 case 4 -> {
                     String plugFrom;
                     String plugTo;
                     System.out.println("Setting a plug from (letter A-Z)");
-                    in.nextLine();
-                    plugFrom = in.nextLine();
+                    do {
+                        plugFrom = in.nextLine();
+                        System.out.println(plugFrom);
+                    }while(!enigma.checkForLetter(plugFrom));
                     if(!enigma.isPlugOccupied(plugFrom)) {
                         System.out.println("to (letter A-Z) ");
-                        plugTo = in.nextLine();
-                        if(!enigma.isPlugOccupied(plugTo)){
+                        do {
+                            plugTo = in.nextLine();
+                            System.out.println(plugTo);
+                        }while(!enigma.checkForLetter(plugTo));
+                        if(!enigma.isPlugOccupied(plugTo) && !plugFrom.equals(plugTo)){
                         enigma.setPlug(plugFrom.charAt(0), plugTo.charAt(0));
                         System.out.println("Plug has been set");
                         }
@@ -99,7 +125,6 @@ public class Main {
                     }
                     System.out.println("unused PLugs: " + (10-length));
                     System.out.println("Do you want to remove any? (Y/N)");
-                    in.nextLine();
                     answer = in.nextLine();
                     if(answer.equalsIgnoreCase("Y")){
                         System.out.println("Which one? (number)");
@@ -114,7 +139,7 @@ public class Main {
                     System.out.println("OK. Exiting...");
                     keepgoing = false;
                 }
-                default -> System.out.println();
+                default -> System.out.print("");
             }
         }
     }
